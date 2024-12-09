@@ -50,13 +50,13 @@ def run(args):
     random.seed(args.seed)
     llm_name = args.llm_name
     dataset = args.dataset
-    llm = LLMCall('sk-8aa10cd1e98d4b0b95d6894e39771f6b', llm_name)
+    llm = LLMCall('', llm_name)
     output_path = './v2_2/modified_question/' + dataset + '/' + llm_name + '/'
     output_file = './v2_2/modified_question/' + dataset + '/' + llm_name + '/' + 'questions.jsonl'
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
-    questions, answers = load_data(dataset, '/data/sprrty/LM/ReasoningAttack/data')
+    questions, answers = load_data(dataset, './data')
     
 
 

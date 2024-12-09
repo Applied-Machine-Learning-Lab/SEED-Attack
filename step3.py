@@ -115,7 +115,7 @@ def main(args):
 
     ratio = args.ratio
     
-    llm = LLMCall('sk-8aa10cd1e98d4b0b95d6894e39771f6b', llm_name)
+    llm = LLMCall('', llm_name)
     if args.few_shot:
         input_file = './v2_2/raw_solution_modified_q_CoT_few_shot/' + dataset + '/' + llm_name + '/' + 'solution.jsonl'
         output_path = './v3_v22/final_solution_modified_q_CoT_few_shot/' + dataset + '/' + llm_name + '/'

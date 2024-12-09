@@ -144,10 +144,7 @@ def main(args):
     print("num of not NONE", len(correct))
     return np.mean(correct), np.mean(success)
         
-       
 
-                
-# '/data/sprrty/LM/ReasoningAttack/final_solution/MATH/llama3/in_llama3_ratio_0.4_reasoning_steps.jsonl'
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--llm', type=str, default='qwen')
@@ -174,7 +171,7 @@ if __name__ == '__main__':
                     if args.few_shot:
                         args.raw_input_file = './v3_v22/final_solution_modified_q_CoT_few_shot/' + args.dataset + '/' + args.llm + '/ratio_0.0_reasoning_steps.jsonl'
                     else:
-                        args.raw_input_file = '/data/sprrty/LM/ReasoningAttack/v3_v22/final_solution_modified_q_CoT/' + args.dataset + '/' + args.llm + '/ratio_0.0_reasoning_steps.jsonl'
+                        args.raw_input_file = './v3_v22/final_solution_modified_q_CoT/' + args.dataset + '/' + args.llm + '/ratio_0.0_reasoning_steps.jsonl'
                     for ratio in [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]:
                         print('ratio:', ratio)
                         if args.few_shot:

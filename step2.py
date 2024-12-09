@@ -53,7 +53,7 @@ def run(args):
     random.seed(args.seed)
     llm_name = args.llm_name
     dataset = args.dataset
-    llm = LLMCall('sk-8aa10cd1e98d4b0b95d6894e39771f6b', llm_name)
+    llm = LLMCall('', llm_name)
     input_file = './v2_2/modified_question/' + dataset + '/' + llm_name + '/' + 'questions.jsonl'
     if args.few_shot:
         output_path = './v2_2/raw_solution_modified_q_CoT_few_shot/' + dataset + '/' + llm_name + '/'
