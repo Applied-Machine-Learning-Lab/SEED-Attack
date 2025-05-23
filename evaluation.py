@@ -7,7 +7,7 @@ import random
 import os
 import re
 import pickle
-from evaluation_utils import *
+from EvaluationUtils import *
 
 
 
@@ -16,7 +16,6 @@ def main(args):
 
     success_save_path = '/'.join(args.input_file.split('/')[:-1]) + '/success.jsonl'
     fail_save_path = '/'.join(args.input_file.split('/')[:-1]) + '/fail.jsonl'
-    abnormal_save_path = '/'.join(args.input_file.split('/')[:-1]) + '/abnormal.jsonl'
 
     if os.path.exists(success_save_path):
         os.remove(success_save_path)
@@ -34,7 +33,6 @@ def main(args):
 
     js = read_jsonl(input_file)
     if 'MATH' in input_file and 'MATHQA' not in input_file:
-        success_incorrect = []
         raw_correct = []
         correct = []
         success = []
@@ -58,16 +56,12 @@ def main(args):
                         success.append(True)
                     else:
                         success.append(False)
-                else:
-                    if same_ret is not None:
-                        success_incorrect.append(same_ret)
 
   
 
     
 
     elif 'gsm8k' in input_file:
-        correct_and_succss = 0
         raw_correct = []
         correct = []
         success = []
@@ -89,8 +83,7 @@ def main(args):
                         success.append(False)
  
     elif 'csqa' in input_file:
-        success_incorrect = []
-        
+
         raw_correct = []
         correct = []
         success = []
@@ -110,9 +103,6 @@ def main(args):
                         success.append(True)
                     else:
                         success.append(False)
-                else:
-                    if same_ret is not None:
-                        success_incorrect.append(same_ret)
 
 
     else:
@@ -141,7 +131,6 @@ def main(args):
     print('Accuracy:', np.sum(correct)/len(js))
     print('ASR:', np.mean(success))
     print('ACC_Drop:', (np.mean(correct) - np.mean(raw_correct))/ np.mean(raw_correct))
-    print("num of not NONE", len(correct))
     return np.mean(correct), np.mean(success)
         
 
@@ -149,35 +138,26 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--llm', type=str, default='qwen')
     parser.add_argument('--dataset', type=str, default='MATH')
-    parser.add_argument('--few_shot', type=bool, default=True)
+    parser.add_argument('--few_shot', type=bool, default=False)
+    parser.add_argument('--ratio', type=float, default=0.6)
+    parser.add_argument('--seed', type=str, default='')
 
     args = parser.parse_args()
 
-    for llm in ['qwen']:
-        for dataset in ['csqa']:
-            for few_shot in [False, True]:
-                print('llm:', llm, 'dataset:', dataset, 'few_shot:', few_shot)
-
-                args.llm = llm
-                args.dataset = dataset
-                args.few_shot = few_shot
-                
-                args.version = 'v3_v22'
-                args.seed = ''
-                for seed in ['']:
-                    args.seed = seed
 
 
-                    if args.few_shot:
-                        args.raw_input_file = './v3_v22/final_solution_modified_q_CoT_few_shot/' + args.dataset + '/' + args.llm + '/ratio_0.0_reasoning_steps.jsonl'
-                    else:
-                        args.raw_input_file = './v3_v22/final_solution_modified_q_CoT/' + args.dataset + '/' + args.llm + '/ratio_0.0_reasoning_steps.jsonl'
-                    for ratio in [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]:
-                        print('ratio:', ratio)
-                        if args.few_shot:
-                            args.input_file = './'+args.version+'/final_solution_modified_q_CoT_few_shot/' + args.dataset + '/' + args.llm + '/' + args.seed + 'ratio_' + str(ratio) + '_reasoning_steps.jsonl'
-                            
-                        else:
-                            args.input_file = './'+args.version+'/final_solution_modified_q_CoT/' + args.dataset + '/' + args.llm + '/'+ args.seed + 'ratio_' + str(ratio) + '_reasoning_steps.jsonl'
-                        main(args)
-                        print('-------')
+
+    if args.few_shot:
+        args.raw_input_file = './final_solution_modified_q_CoT_few_shot/' + args.dataset + '/' + args.llm + '/ratio_0.0_reasoning_steps.jsonl'
+    else:
+        args.raw_input_file = './final_solution_modified_q_CoT/' + args.dataset + '/' + args.llm + '/ratio_0.0_reasoning_steps.jsonl'
+
+    
+    print('ratio:', args.ratio)
+    if args.few_shot:
+        args.input_file = './final_solution_modified_q_CoT_few_shot/' + args.dataset + '/' + args.llm + '/' + args.seed + 'ratio_' + str(args.ratio) + '_reasoning_steps.jsonl'
+        
+    else:
+        args.input_file = './final_solution_modified_q_CoT/' + args.dataset + '/' + args.llm + '/'+ args.seed + 'ratio_' + str(args.ratio) + '_reasoning_steps.jsonl'
+    main(args)
+                    
