@@ -1,6 +1,6 @@
-# [ACL'25 Main] Stealthy Disruption of Chain-of-Thought: A Stepwise Attack Framework for LLMs
+# [ACL'25 Main] Stepwise Reasoning Disruption Attack of LLMs
 
-Code implementation of ACL paper "Stealthy Disruption of Chain-of-Thought: A Stepwise Attack Framework for LLMs"
+Code implementation of ACL paper "Stepwise Reasoning Disruption Attack of LLMs"
 
 <p align='center'>
 <img src="assets/method.png" style="width: 80%;" />
